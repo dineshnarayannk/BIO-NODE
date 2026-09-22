@@ -44,6 +44,57 @@ const QUICK_COMPOUNDS = [
   "Novobiocin",
 ];
 
+function GraphLoadingSequence() {
+  const [step, setStep] = useState(0);
+  const steps = [
+    { label: "Mapping biological relationships...", icon: "🧪" },
+    { label: "Connecting molecular targets...", icon: "🧬" },
+    { label: "Tracing biological pathways...", icon: "🛤" },
+    { label: "Building biological network...", icon: "⚡" },
+  ];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setStep((prev) => (prev < steps.length - 1 ? prev + 1 : prev));
+    }, 280);
+    return () => clearInterval(timer);
+  }, [steps.length]);
+
+  return (
+    <div className="w-full h-[520px] rounded-xl bg-slate-900/70 border border-slate-800 flex flex-col items-center justify-center p-6 backdrop-blur-md shadow-2xl">
+      <div className="relative mb-6">
+        <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-500/20 via-teal-500/20 to-cyan-500/20 border border-emerald-500/30 flex items-center justify-center shadow-lg shadow-emerald-500/10">
+          <Dna className="w-7 h-7 text-emerald-400 animate-pulse" />
+        </div>
+        <div className="absolute -inset-1 rounded-2xl bg-emerald-500/10 blur-sm -z-10 animate-pulse" />
+      </div>
+
+      <div className="space-y-2.5 w-full max-w-xs">
+        {steps.map((s, idx) => (
+          <div
+            key={s.label}
+            className={`flex items-center gap-3 px-3 py-2 rounded-xl transition-all duration-300 border ${
+              idx === step
+                ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-300 shadow-sm"
+                : idx < step
+                ? "bg-slate-950/40 border-slate-800/80 text-slate-400"
+                : "bg-transparent border-transparent text-slate-600 opacity-40"
+            }`}
+          >
+            <span className="text-sm">{s.icon}</span>
+            <span className="text-xs font-medium flex-1">{s.label}</span>
+            {idx === step ? (
+              <div className="w-3.5 h-3.5 border-2 border-emerald-400/30 border-t-emerald-400 rounded-full animate-spin" />
+            ) : idx < step ? (
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+            ) : null}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function BioNexusDashboard() {
   const [health, setHealth] = useState<HealthStatus | null>(null);
   const [searchQuery, setSearchQuery] = useState("Doxorubicin");
@@ -361,12 +412,7 @@ export default function BioNexusDashboard() {
             {/* Cytoscape Canvas */}
             <div className="lg:col-span-3">
               {isLoadingDetails ? (
-                <div className="w-full h-[520px] rounded-xl bg-slate-900/60 border border-slate-800 flex items-center justify-center">
-                  <div className="flex flex-col items-center gap-3">
-                    <div className="w-8 h-8 border-3 border-emerald-500/30 border-t-emerald-500 rounded-full animate-spin" />
-                    <span className="text-sm text-slate-400">Loading Biological Knowledge Graph...</span>
-                  </div>
-                </div>
+                <GraphLoadingSequence />
               ) : graphData && graphData.nodes.length > 0 ? (
                 <CytoscapeGraph
                   graphData={graphData}
