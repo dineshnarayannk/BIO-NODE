@@ -1,0 +1,69 @@
+# Environment variables
+.env
+.env.local
+.env.*.local
+*.env
+
+# Node / Frontend
+node_modules/
+.next/
+out/
+build/
+dist/
+.npm
+.yarn/
+*.tsbuildinfo
+next-env.d.ts
+
+# Python / Backend
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+*.cover
+.hypothesis/
+
+# IDE & OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Biological raw large files
+data/raw/*.sdf.gz
+data/raw/*.tar.gz
+data/processed/*.h5
+data/processed/*.pkl

@@ -1,0 +1,2 @@
+# Processed biological data folder
+Generated entity dictionaries, Parquet tables, and serialized knowledge graph files will be stored here.
